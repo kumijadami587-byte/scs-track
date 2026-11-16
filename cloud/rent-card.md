@@ -7,7 +7,9 @@
 Rate: 1 USD = 129.50 KES, from Central Bank of Kenya, read 2026-11-16
 
 ## The need
-Our client needs to host a simple portfolio landing page showcasing local products. The target expectation is around 100 visitors a day, with a dedicated local budget threshold of 1,500 shillings per month.
+The business needs a decentralized platform to let local craft vendors upload and track community trading commodity inventories.
+We expect around 100 visitors a day to browse available items.
+The intentional local operating budget threshold is 1,500 shillings per month.
 
 ## Measured
 - nproc: 1
@@ -18,17 +20,20 @@ Our client needs to host a simple portfolio landing page showcasing local produc
 - time: Mon Nov 16 16:15:23 EAT 2026
 
 ## What to rent for what
-- Instance Type: t2.micro costs $0.0116 per hour on the dated price pack, page 4
-- Storage Block: 8GB General Purpose SSD EBS volume costs $0.80 per month on page 12
-- Static IP Address: Free while attached to a running instance, otherwise $0.005 per hour on page 18
-- Data Transfer: First 100 GB out to the internet is free per month on page 22
-- Total Monthly Rent: Approximately $9.15 USD which maps down to 1,185 KES on page 24
+- Amazon S3 Serverless No-Server Hosting: Costs $0.023 per GB per month (://amazon.com, read 2026-11-16)
+- AWS Lightsail VPS Starter Plan: Bundles resource boundaries for $3.50 per month (://amazon.com, read 2026-11-16)
+- Amazon EC2 t2.micro: Standard developer compute layer costing $0.0116 per hour (aws.amazon.com/ec2/pricing, read 2026-11-16)
+- Learning and Staging server (scs-server): Shared resource tier that costs $0.0116 per hour (aws.amazon.com/ec2/pricing, read 2026-11-16)
+- Never for a small client (m-class or heavy GPU): Enterprise scale tiers costing over $1.50 per hour which is far too heavy (aws.amazon.com/ec2/pricing, read 2026-11-16)
 
 ## My choice
-I recommend this client rent a standard Amazon EC2 t2.micro instance or a basic $3.50 AWS Lightsail plan to host their static assets efficiently.
+The chosen profile is a standard t2.micro instance.
 
-## Why not bigger, why not smaller
-We do not choose a larger instance size because our measured idle memory footprint shows 420MB free out of 983MB, proving a larger tier would be an unnecessary waste of money. We do not choose a smaller instance size because a t2.nano offers only 0.5GB of RAM, which could cause compilation leaks when running system updates or background tasks.
+## Why not bigger
+Why not bigger: Our measured idle memory footprint shows 420MB free out of 983MB, proving a larger tier would be an unnecessary waste of money.
+
+## Why not smaller
+Why not smaller: A t2.nano tier offers only 0.5GB of RAM, which would crash our system memory when running packages updates or node application processes.
 
 ## Lightsail or EC2 for this client
 I choose AWS Lightsail for this client because it bundles compute capacity, storage, and data transfer boundaries into a fixed monthly price predictability map that matches their small local budget.
