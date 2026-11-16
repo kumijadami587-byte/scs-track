@@ -14,4 +14,5 @@
 | key pair | A secure set of keys where the private key file stays with the developer to authenticate terminal logins safely. | EC2 Dashboard > Network & Security > Key Pairs |
 | SSH | A secure cryptographic network protocol used to open remote command lines inside running Linux servers across the internet. | Local Terminal Terminal Shell / Linux Command Line |
 
+| IAM | A central AWS web service used to securely manage user permissions, access levels, and security credentials across cloud resources. | IAM Management Dashboard |
 AI receipt: Gemini, 2026-11-16, asked to compile correct markdown tables for AWS check validation, checked it against local script validation parameters on my terminal window.
