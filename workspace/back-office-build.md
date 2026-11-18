@@ -10,7 +10,7 @@
 | 4. Automated external integrations required? | None needed; manual entry and monthly Excel backup fit the workflow. |
 | 5. Owner comfort and budget? | Zero software budget and the owner already understands basic spreadsheets. |
 
-Verdict: Sheets.  Pattern: invoicing.  Because: It costs nothing to run, the owner can track unpaid invoices and totals without IT support, and it easily handles fewer than 150 transactions a month.
+Verdict: Sheets.  Pattern: inventory.  Because: It costs nothing to run, the owner can track unpaid invoices and totals without IT support, and it easily handles fewer than 150 transactions a month.
 
 ## Validation and Protection
 - **Data Validation (Records tab):**
