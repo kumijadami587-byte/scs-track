@@ -1,18 +1,44 @@
 # Back-Office Build Notes — SCS 3.4
 
 ## Overkill Verdict
-Google Sheets is the right fit for this business rather than a custom database or ERP. Transaction volume is under a few hundred rows per month, the owner already knows basic spreadsheets, and a three-tab workbook (Lists, Records, Dashboard) handles daily tracking without hosting costs or software maintenance.
+
+| Overkill Question | Client Answer |
+| :--- | :--- |
+| 1. Monthly row volume? | Under 150 records per month, well within Google Sheets limits. |
+| 2. Concurrent editors needed? | Only 1 to 2 people (owner and clerk) update records at different times. |
+| 3. Complex relational lookups or permissions? | Simple three-tab structure (Lists, Records, Dashboard) with basic dropdowns is enough. |
+| 4. Automated external integrations required? | None needed; manual entry and monthly Excel backup fit the workflow. |
+| 5. Owner comfort and budget? | Zero software budget and the owner already understands basic spreadsheets. |
+
+Verdict: Sheets.  Pattern: Ledger and summary dashboard.  Because: It costs nothing to run, the owner can read and maintain it without IT support, and it easily handles fewer than 150 transactions a month.
 
 ## Validation and Protection
-- **Data Validation (Records tab):** Applied dropdown validation referencing the Lists tab for Category, Item/Service, Payment Status, and Staff/Member columns, with "Reject input" enabled so invalid entries are blocked. Applied date validation on the Date column and numeric validation (> 0) on Quantity and Amount.
-- **Range Protection (Dashboard & Lists):** Protected the entire Dashboard tab and the header rows of Records so editors cannot overwrite summary formulas or typed labels, while leaving new entry rows open on Records.
-- **Ledger Rule:** Corrections are recorded as new adjustment rows rather than overwriting historical entries, preserving a clear audit trail in Version history.
+- **Data Validation (Records tab):**
+  - Category column (`Lists!A2:A20`, reject input) — tested garbage input `"RandomStuff"`, rejected with error message.
+  - Status column (`Lists!B2:B10`, reject input) — tested garbage input `"MaybePaid"`, rejected with error message.
+  - Amount column (Number greater than 0, reject input) — tested garbage input `"abc"` and `-50`, rejected with error message.
+- **Range Protection:**
+  - Protected `Dashboard!A1:F30` (warning/editor lock) so KPI formulas cannot be overwritten.
+  - Protected `Records!A1:H1` (header row) so column headings stay intact while new rows can still be added below.
+  - Protected `Lists!A1:D30` so reference dropdown items are not accidentally deleted.
 
 ## AI Receipts
-- **Prompt 1 (Formulas):** Asked for `SUMIFS` and `COUNTIFS` formulas using only column headings (`Date`, `Category`, `Amount`, `Status`) with zero customer names, phone numbers, or financial figures included.
-- **Verification & Adjustment:** Adjusted the generated range references from `Records!A2:E100` to open-ended columns (`Records!A2:E`) so new rows added past row 100 are automatically included on the Dashboard.
 
-## Break the Books
-- **Test 1 (Invalid Category / Text in Amount):** Attempted to enter an unlisted category and text inside the Amount column as a secondary editor; data validation rejected both inputs immediately.
-- **Test 2 (Formula Overwrite on Dashboard):** Attempted to type directly over a Dashboard KPI cell as an editor; range protection blocked the edit.
-- **Test 3 (Cross-Month Date Filtering):** Added a backdated transaction from the previous month to verify the Dashboard's monthly `COUNTIFS`/`SUMIFS` formulas excluded it from current-month totals.
+| Task / Ask | Formula Written Out | Adjustment Made |
+| :--- | :--- | :--- |
+| Monthly paid revenue sum | `=SUMIFS(Records!F2:F, Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Changed bounded `F2:F100` to open-ended `F2:F` so future rows calculate automatically. |
+| Monthly pending balance | `=SUMIFS(Records!F2:F, Records!E2:E, "Pending")` | Verified status label matches Lists tab exact spelling. |
+| Monthly paid order count | `=COUNTIFS(Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Added date bounds referencing as-of date in `B1`. |
+| Overdue balance alert flag | `=IF(B5>10000, "FLAG: Review Overdue", "OK")` | Set threshold to 10,000 KES based on owner's credit limit rule. |
+
+## Break the books
+
+| Attack (Drill Card) | What I Said Would Happen | What Happened | Held or Fix |
+| :--- | :--- | :--- | :--- |
+| 1. Type an unlisted category in Records | Data validation will block the entry and show an error alert. | Entry was rejected immediately with a validation error pop-up. | Held |
+| 2. Enter text (`"five hundred"`) in the numeric Amount column | Numeric validation will reject non-numeric input. | Sheet blocked the text and kept the cell empty. | Held |
+| 3. Enter a future or malformed date (`"32/13/2026"`) in Date | Date validation will refuse invalid calendar dates. | Sheet flagged and rejected the invalid date string. | Held |
+| 4. Overwrite a Dashboard formula cell as a secondary editor | Range protection will prevent typing over Dashboard formulas. | Edit was blocked by protected range permissions. | Held |
+| 5. Delete a header cell on Records (`Records!A1`) | Protected header range will stop header deletion. | Edit was refused for non-owner editor. | Held |
+| 6. Add a backdated row from last month to test monthly filter | Monthly KPIs will ignore last month's row while all-time total updates. | Monthly sum stayed unchanged; fixed one formula where month filter was missing. | Fix applied to monthly COUNTIFS range |
+| 7. Overwrite an existing row instead of adding a correction row | Version history will show the change, violating ledger audit rules. | Confirmed policy and trained clerk to append negative/adjustment rows instead. | Held (process rule enforced) |
