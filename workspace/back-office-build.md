@@ -4,13 +4,13 @@
 
 | Overkill Question | Client Answer |
 | :--- | :--- |
-| 1. Monthly row volume? | Under 150 records per month, well within Google Sheets limits. |
+| 1. Monthly row volume? | Under 150 invoices per month, well within Google Sheets limits. |
 | 2. Concurrent editors needed? | Only 1 to 2 people (owner and clerk) update records at different times. |
 | 3. Complex relational lookups or permissions? | Simple three-tab structure (Lists, Records, Dashboard) with basic dropdowns is enough. |
 | 4. Automated external integrations required? | None needed; manual entry and monthly Excel backup fit the workflow. |
 | 5. Owner comfort and budget? | Zero software budget and the owner already understands basic spreadsheets. |
 
-Verdict: Sheets.  Pattern: Ledger and summary dashboard.  Because: It costs nothing to run, the owner can read and maintain it without IT support, and it easily handles fewer than 150 transactions a month.
+Verdict: Sheets.  Pattern: invoicing.  Because: It costs nothing to run, the owner can track unpaid invoices and totals without IT support, and it easily handles fewer than 150 transactions a month.
 
 ## Validation and Protection
 - **Data Validation (Records tab):**
@@ -24,12 +24,12 @@ Verdict: Sheets.  Pattern: Ledger and summary dashboard.  Because: It costs noth
 
 ## AI Receipts
 
-| Task / Ask | Formula Written Out | Adjustment Made |
-| :--- | :--- | :--- |
-| Monthly paid revenue sum | `=SUMIFS(Records!F2:F, Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Changed bounded `F2:F100` to open-ended `F2:F` so future rows calculate automatically. |
-| Monthly pending balance | `=SUMIFS(Records!F2:F, Records!E2:E, "Pending")` | Verified status label matches Lists tab exact spelling. |
-| Monthly paid order count | `=COUNTIFS(Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Added date bounds referencing as-of date in `B1`. |
-| Overdue balance alert flag | `=IF(B5>10000, "FLAG: Review Overdue", "OK")` | Set threshold to 10,000 KES based on owner's credit limit rule. |
+| Ask (Column Headings Only) | Formula | What I Changed | Hand Check (Log Row) |
+| :--- | :--- | :--- | :--- |
+| Sum Amount where Status is Paid and Date is in current month (`Date`, `Status`, `Amount`) | `=SUMIFS(Records!F2:F, Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Changed bounded `F2:F100` to open-ended `F2:F` so new rows calculate automatically. | Row 1 (`Dashboard!B4` — expected 48500, sheet 48500, Match) |
+| Sum Amount where Status is Pending (`Status`, `Amount`) | `=SUMIFS(Records!F2:F, Records!E2:E, "Pending")` | Verified status label matches Lists tab exact spelling. | Row 2 (`Dashboard!B5` — expected 16200, sheet 16200, Match) |
+| Count rows where Status is Paid and Date is in current month (`Date`, `Status`) | `=COUNTIFS(Records!E2:E, "Paid", Records!A2:A, ">="&EOMONTH(B1,-1)+1, Records!A2:A, "<="&EOMONTH(B1,0))` | Added date bounds referencing as-of date in `B1` and trimmed trailing spaces in Lists. | Row 3 (`Dashboard!B6` — expected 11, sheet 11, Match) |
+| Flag when pending total exceeds threshold (`Pending Total`) | `=IF(B5>10000, "FLAG: Review Overdue", "OK")` | Set threshold to 10,000 KES based on owner's credit limit rule. | Row 4 (`Dashboard!B7` — expected FLAG: Review Overdue, sheet FLAG: Review Overdue, Match) |
 
 ## Break the books
 
