@@ -1,3 +1,4 @@
+/** @OnlyCurrentDoc */
 // Reorder reminder -- SCS3.5 FALLBACK DRAFT for the We Do, used only when the tool or the connection is down.
 // AI-assisted, directed by anur: reviewed line by line, tested by hand, and patched by hand for SCS3.5.
 // with faults left in on purpose.  Read it, test it by hand, find them.  The trainer says out loud that it was planted.
