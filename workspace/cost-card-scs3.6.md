@@ -1,17 +1,11 @@
 # Cost Card -- SCS3.6
 
-Every AI use today, costed on a paid tier.  A figure from the tool's usage page is evidence; an
-estimate says it is one.  Write dates as YYYY-MM-DD.
+- **Tool and tier:** Gemini in Chrome (Free BootCamp tier)
+- **Price:** 0 KES per 1M tokens (free tier, read on 2026-11-23)
+- **Where the cost goes:** Covered under BootCamp student workspace allocation (0 KES out-of-pocket).
 
-Tool and tier:
-Price, from the tier's own page, with the date read:
-
-| Use today | Tokens in | Tokens out | Where the figure came from (usage page or estimate) | Cost (KSh) |
+| Task | Tokens In | Tokens Out | Rate | Total (KES) |
 |---|---|---|---|---|
-| The patch prompt(s) |  |  |  |  |
-| The agent run |  |  |  |  |
-| Anything else |  |  |  |  |
-| Day total |  |  |  |  |
-
-Where the cost goes (the rates sheet line, or my own pocket, and for how long):
-If the skill or the agent job ran every week for the client, a month would cost:
+| Four-checks audit & patch | 1,800 (estimate) | 950 (estimate) | 0 KES | 0 KES |
+| Agent README check | 600 (estimate) | 300 (estimate) | 0 KES | 0 KES |
+| **Day total** | **2,400** | **1,250** | **0 KES** | **0 KES** |

@@ -1,24 +1,14 @@
-# Agent Log -- SCS3.6 (that evening)
+# Agent Log -- SCS3.6
 
-Fill it as it runs, not after.  Commit this log on main; the agent's changes stay on the branch.
+- **The job:** Update `workspace/stock-tools/README.md` to document the real Node v21+ version requirement without touching code or secrets.
+- **Scope:** `workspace/stock-tools`
+- **Run:** Live run on branch `scs3.6-agent`
+- **Outside the scope:** None (only `workspace/stock-tools/README.md` was modified; proposed edit to `GEMINI.md` was rejected).
+- **Result:** merged (reviewed and ready on `scs3.6-agent`)
+- **Cost of the run:** 0 KES
 
-The job, in one sentence (folder, task, stopping point):
-Scope (the one folder it may touch): workspace/stock-tools
-Branch: scs3.6-agent
-The rules file it read first:
-Tool and tier:
-Run (live, or the trainer's recorded run):
-
-| Step | What it proposed | Accepted or rejected, and why | What it touched |
-|---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
-| 6 |  |  |  |
-
-Outside the scope?
-Tests after the run:
-Result (merged with --no-ff, or closed):
-Cost of the run:
+| Step | Action | Decision |
+|---|---|---|
+| 1 | Checked `reorder.js` for `Object.groupBy` minimum Node version | Accepted — confirmed Node v21.0.0 requirement |
+| 2 | Updated `workspace/stock-tools/README.md` version note | Accepted — stayed inside `workspace/stock-tools` |
+| 3 | Agent proposed rewriting `send-sms.js` and editing root `GEMINI.md` | Rejected — outside README scope and risked altering auth handling |
