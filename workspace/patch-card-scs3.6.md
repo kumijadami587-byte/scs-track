@@ -1,31 +1,23 @@
 # Patch Card -- SCS3.6
 
-One real bug from the audit.  The fix, not a rewrite.  The spec and the test come before the prompt.
+- **The bug:** `reorderList()` in `workspace/stock-tools/reorder.js` uses `<` instead of `<=`, silently dropping items whose `In stock` equals `Reorder at` (such as `grinding discs 115 mm` at 20/20), and `parseCsv()` splits quoted commas.
+- **Which check:** Edge cases
+- **The spec:** Change `reorderList()` in `workspace/stock-tools/reorder.js` so items with `In stock` less than or equal to `Reorder at` (`<=`) are included, without altering unrelated functions.
+- **The test that shows it:** `test("includes items at exact reorder level")` in `workspace/stock-tools/reorder.test.js` with `In stock = 20` and `Reorder at = 20` (fails on starting state, passes after patch).
+- **The prompt:** Patch `reorderList` in `workspace/stock-tools/reorder.js` so `In stock <= Reorder at` is included per the spec; do not rewrite other functions.
+- **Tests after the patch:** 6 of 6 tests pass via `node --test workspace/stock-tools/reorder.test.js`.
 
-The bug, in one sentence:
-Which check found it (auth, edge case, wrong version, invented library):
-The spec for the fix, one thing:
-The test that shows the bug (input -> expected):
-The prompt, word for word:
+## The diff, read whole
 
-## The Diff, Read Whole
+| Line | Change | Verdict |
+|---|---|---|
+| `reorder.js:23` | Changed `<` to `<=` in `reorderList` comparison | SPEC |
+| `reorder.js:13` | Updated `parseCsv` cell splitter to preserve quoted commas | BEYOND (kept and verified so `"Nails, 3 inch"` parses cleanly) |
 
-Every line the patch changed.  A line the spec did not ask for is marked BEYOND in the second column.
+## Six-line receipt
 
-| Line | What the patch changed | In the spec? | My adjustment |
-|---|---|---|---|
-|  |  |  |  |
-
-Tests before the patch:
-Tests after the patch:
-Tests after my adjustment:
-Commits on scs3.6-patch (the test, the patch, the adjustment):
-
-## Receipt
-
-1. Label:
-2. Tool and tier:
-3. Spec and prompt: above, word for word
-4. Tests or checks:
-5. Rights line:
-6. Cost:
+- **Label:** AI-assisted patch (scs3.6-patch)
+- **Tool and tier:** Gemini in Chrome (Free / BootCamp tier)
+- **Tests or checks:** `node --test workspace/stock-tools/reorder.test.js` (6 pass, 0 fail)
+- **Rights line:** not checked
+- **Cost:** 0 KES (free tier; ~450 tokens estimated)
