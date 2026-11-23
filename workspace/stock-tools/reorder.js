@@ -10,7 +10,7 @@ function parseCsv(text) {
   const lines = text.trim().split("\n");
   const headers = lines[0].split(",").map((h) => h.trim());
   return lines.slice(1).map((line) => {
-    const cells = line.split(",");
+    const cells = (line.match(/("[^"]*"|[^,]+)/g) || []).map((c) => c.replace(/^"|"$/g, ""));
     const row = {};
     headers.forEach((h, i) => {
       row[h] = (cells[i] || "").trim();
