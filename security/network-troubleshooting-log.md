@@ -4,8 +4,8 @@ My guess: cable
 The rung I expected: rung 1
 | Step | What changed |
 |---|---|
-| 1 | Swapped patch cable; nothing changed |
-| 2 | Moved port on switch; link came up |
+| 1 | Swapped patch cable | nothing changed |
+| 2 | Moved port on switch | link came up |
 The rung that failed: rung 1
 The fault was: Faulty patch cable or switch port.
 Fixed by: Replaced with a known-good cable.
@@ -17,8 +17,8 @@ My guess: network
 The rung I expected: rung 3
 | Step | What changed |
 |---|---|
-| 1 | Checked interface status; no change |
-| 2 | Renewed DHCP lease; gateway reachable |
+| 1 | Checked interface status | no change |
+| 2 | Renewed DHCP lease | gateway reachable |
 The rung that failed: rung 3
 The fault was: Stale or missing IP configuration.
 Fixed by: Renewed address configuration.
@@ -30,8 +30,8 @@ My guess: device
 The rung I expected: rung 2
 | Step | What changed |
 |---|---|
-| 1 | Checked physical connection; nothing changed |
-| 2 | Corrected interface setting; traffic passed |
+| 1 | Checked physical connection | nothing changed |
+| 2 | Corrected interface setting | traffic passed |
 The rung that failed: rung 2
 The fault was: Misconfigured device setting.
 Fixed by: Restored proper setting.
