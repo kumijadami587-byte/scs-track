@@ -37,7 +37,7 @@ The fault was: Misconfigured device setting.
 Fixed by: Restored proper setting.
 Proved on the lab device: Rungs 1 to 4 passed after fix.
 Put back: Returned lab device to automatic DHCP.
-Sealed log fingerprint: REPLACE_WITH_12_CHAR_HEX_FROM_GUESS_FILE
+Sealed log fingerprint: 
 Card number: 27
 
 ## The card I planted
